@@ -6,15 +6,18 @@ const alarmIntervalMin = 1.0;
 
 chrome.runtime.onStartup.addListener(() => {
   console.log("autobookmarktabs onStartup");
-  run()
+  // run()
+  return;
 });
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("autobookmarktabs onInstalled");
   chrome.alarms.create(alarmName, {
+    delayInMinutes: 1.0,
     periodInMinutes: alarmIntervalMin
   });
-  run()
+  // run();
+  return;
 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
@@ -23,6 +26,7 @@ chrome.alarms.onAlarm.addListener((alarm) => {
     console.log("Alarm called!");
     run();
   }
+  return;
 });
 
 
@@ -63,7 +67,6 @@ async function deleteOld() {
   console.log(`Delete target: ${target.map(e => e.title)}`);
 
   for (let dir of target) {
-    console.log(JSON.stringify(dir));
     await removeTree(dir);
   }
   return;
