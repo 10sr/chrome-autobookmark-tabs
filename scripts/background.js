@@ -2,7 +2,7 @@ const baseBookmarkDirectoryName = "AutoboomarkTabs";
 const isVivaldi = !!navigator.appVersion.match(/Vivaldi/);
 const alarmName = "ALARM-AUTOBOOKMARK-TABS";
 const numOfRotate = 10;
-const alarmIntervalMin = 1.0;
+const alarmIntervalMin = 10.0;
 
 chrome.runtime.onStartup.addListener(() => {
   console.log("autobookmarktabs onStartup");
