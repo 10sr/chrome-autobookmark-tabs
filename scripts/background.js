@@ -4,13 +4,6 @@ const alarmName = "ALARM-AUTOBOOKMARK-TABS";
 const numOfRotate = 10;
 const alarmIntervalMin = 10.0;
 
-chrome.runtime.onStartup.addListener(() => {
-  console.log("autobookmarktabs onStartup");
-  createAlarm();
-  // run()
-  return;
-});
-
 chrome.runtime.onInstalled.addListener(() => {
   console.log("autobookmarktabs onInstalled");
   createAlarm();
