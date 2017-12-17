@@ -30,8 +30,14 @@ chrome.alarms.onAlarm.addListener((alarm) => {
 });
 
 
-async function run() {
-  console.log("run() called!!!!");
+function run() {
+  console.log("Start saving tabs");
+  save();
+  deleteOld();
+  return;
+}
+
+async function save() {
   const allTabs = await getAllTabs();
 
   let tabUrls = allTabs.map(tab => tab.url);
@@ -50,8 +56,6 @@ async function run() {
     await createBookmark(targetBookmarkDirectory, tab.title, tab.url)
   }
 
-  deleteOld();
-  return;
 }
 
 async function deleteOld() {
@@ -91,7 +95,6 @@ function getChildDirectory(parentDirectory, name) {
 }
 
 function createDirectory(parentDirectory, name) {
-  console.log(parentDirectory.id)
   return new Promise(ok => {
     chrome.bookmarks.create({
       parentId: parentDirectory.id,
