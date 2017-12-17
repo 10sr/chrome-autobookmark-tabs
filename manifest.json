@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "autobookmark-tabs",
+  "description": "Bookmark current tab list periodically",
+  "version": "0.0.1",
+
+  "background": {
+    "scripts": ["scripts/background.js"],
+    "persistent": false
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "bookmarks",
+    "alarms"
+  ]
+}
