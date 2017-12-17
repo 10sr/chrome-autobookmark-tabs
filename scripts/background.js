@@ -6,16 +6,14 @@ const alarmIntervalMin = 10.0;
 
 chrome.runtime.onStartup.addListener(() => {
   console.log("autobookmarktabs onStartup");
+  createAlarm();
   // run()
   return;
 });
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("autobookmarktabs onInstalled");
-  chrome.alarms.create(alarmName, {
-    delayInMinutes: 1.0,
-    periodInMinutes: alarmIntervalMin
-  });
+  createAlarm();
   // run();
   return;
 });
@@ -29,6 +27,12 @@ chrome.alarms.onAlarm.addListener((alarm) => {
   return;
 });
 
+function createAlarm() {
+  chrome.alarms.create(alarmName, {
+    delayInMinutes: 1.0,
+    periodInMinutes: alarmIntervalMin
+  });
+}
 
 function run() {
   console.log("Start saving tabs");
