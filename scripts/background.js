@@ -2,6 +2,7 @@ const baseBookmarkDirectoryName = "AutoboomarkTabs";
 const isVivaldi = !!navigator.appVersion.match(/Vivaldi/);
 const alarmName = "ALARM-AUTOBOOKMARK-TABS";
 const numOfRotate = 3;
+const alarmIntervalMin = 1.0;
 
 chrome.runtime.onStartup.addListener(() => {
   console.log("autobookmarktabs onStartup");
@@ -11,8 +12,7 @@ chrome.runtime.onStartup.addListener(() => {
 chrome.runtime.onInstalled.addListener(() => {
   console.log("autobookmarktabs onInstalled");
   chrome.alarms.create(alarmName, {
-    delayInMinutes: 1.0,
-    periodInMinutes: 1.0
+    periodInMinutes: alarmIntervalMin
   });
   run()
 });
@@ -62,6 +62,10 @@ async function deleteOld() {
   let target = getSortedChildren(baseBookmarkDirectory).slice(0, numOfRotate * (-1));
   console.log(`Delete target: ${target.map(e => e.title)}`);
 
+  for (let dir of target) {
+    console.log(JSON.stringify(dir));
+    await removeTree(dir);
+  }
   return;
 }
 
@@ -84,7 +88,6 @@ function getChildDirectory(parentDirectory, name) {
   return null;
 }
 
-//Promise
 function createDirectory(parentDirectory, name) {
   console.log(parentDirectory.id)
   return new Promise(ok => {
@@ -127,5 +130,13 @@ function getAllTabs(){
     chrome.tabs.query({}, r =>{
       ok(r);
     })
+  });
+}
+
+function removeTree(target){
+  return new Promise((resolve, reject) => {
+    chrome.bookmarks.removeTree(target.id, r => {
+      resolve(r);
+    });
   });
 }
