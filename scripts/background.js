@@ -1,7 +1,7 @@
 const baseBookmarkDirectoryName = "AutoboomarkTabs";
 const isVivaldi = !!navigator.appVersion.match(/Vivaldi/);
 const alarmName = "ALARM-AUTOBOOKMARK-TABS";
-const numOfRotate = 3;
+const numOfRotate = 10;
 const alarmIntervalMin = 1.0;
 
 chrome.runtime.onStartup.addListener(() => {
@@ -38,7 +38,6 @@ async function run() {
   console.log(`Tabs: num: ${tabUrls.length}, ${tabUrls}`);
 
   const bookmarkTree = await getBookmarkTree();
-  console.log(`${bookmarkTree.id}`)
 
   let baseBookmarkDirectory = getChildDirectory(bookmarkTree, baseBookmarkDirectoryName);
   if (!baseBookmarkDirectory) {
