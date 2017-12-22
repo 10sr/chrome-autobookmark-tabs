@@ -2,7 +2,10 @@ const baseBookmarkDirectoryName = "AutoboomarkTabs";
 const isVivaldi = !!navigator.appVersion.match(/Vivaldi/);
 const alarmName = "ALARM-AUTOBOOKMARK-TABS";
 const numOfRotate = 10;
-const alarmIntervalMin = 30.0;
+const alarmIntervalMin = 1.0;
+const idleSeconds = 5 * 60;
+
+var lastState = null;
 
 chrome.runtime.onInstalled.addListener(() => {
   console.log("autobookmarktabs onInstalled");
@@ -13,10 +16,17 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.alarms.onAlarm.addListener((alarm) => {
   console.log(`onAlarm: ${JSON.stringify(alarm)}`);
-  if (alarm.name === alarmName) {
-    console.log("Alarm called!");
-    run();
+  if (alarm.name !== alarmName) {
+    return;
   }
+
+  chrome.idle.queryState(idleSeconds, (state) => {
+    console.log(`State: ${state}`);
+    if (state === "idle" && lastState !== "idle") {
+      run();
+    }
+    lastState = state;
+  });
   return;
 });
 
@@ -110,7 +120,9 @@ function createBookmark(parentDirectory, title, url) {
       title: title,
       url: url
     }, r => {
-      resolve(r);
+      setTimeout(() => {
+        resolve(r);
+      }, 1000);
     });
   });
 }
